@@ -4,7 +4,7 @@ var gulp        = require('gulp'),
     handleErrors = require('../util/handleErrors');
 
 gulp.task('jshint', function () {
-    return gulp.src(paths.scripts)
+    return gulp.src([paths.scripts, paths.tests])
         .pipe(handleErrors())
         .pipe(cache('jshint', { optimizeMemory: true }))
         .pipe(jshint())

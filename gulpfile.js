@@ -14,6 +14,7 @@
  */
 
 var gulp        = require('gulp'),
+	runSeq      = require('run-sequence'),
     requireDir  = require('require-dir');
 
 // Specify game project paths for tasks.
@@ -22,11 +23,18 @@ global.paths = {
     out: './bin',
 
     get scripts() { return this.src + '/**/*.js'; },
-    get jsEntry() { return this.src + '/index'; }
+    get jsEntry() { return this.src + '/index'; },
+    get tests() { return './test/**/*.js'; }
 };
 
 // Require all tasks in gulp/tasks, including subfolders
 requireDir('./gulp/tasks', { recurse: true });
 
 // default task
-gulp.task('default', ['jshint', 'build']);
+gulp.task('default', function(done){
+	runSeq('test', 'build', done);
+});
+
+gulp.task('test', function(done){
+	runSeq('jshint', 'unit-test', done);
+});

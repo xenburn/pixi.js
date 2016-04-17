@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "gulp && gulp watch",
-    "test": "gulp && testem ci",
+    "test": "gulp test",
     "build": "gulp",
     "docs": "jsdoc -c ./gulp/util/jsdoc.conf.json -R README.md"
   },
@@ -41,14 +41,16 @@
     "resource-loader": "^1.6.4"
   },
   "devDependencies": {
+    "babel-runtime": "^6.6.1",
     "browserify": "^11.1.0",
     "browserify-versionify": "^1.0.6",
-    "chai": "^3.2.0",
+    "chai": "^3.5.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-debug": "^2.1.0",
+    "gulp-electron-mocha": "^1.1.0",
     "gulp-header": "^1.7.1",
     "gulp-jshint": "^2.0.0",
     "gulp-mirror": "^1.0.0",

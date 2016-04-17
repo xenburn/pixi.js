@@ -1,23 +1,17 @@
-sudo: false
 language: node_js
 node_js:
-    - "0.10"
-
-branches:
-    only:
-        - master
-        - dev
+    - "4.2"
 
 install:
-    - npm install
+    - npm install xvfb-maybe electron-prebuilt .
 
 cache:
-    directories:
-        - node_modules
+  directories:
+    - node_modules
 
 before_script:
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 -extension RANDR &
 
 script:
-    - npm test
+    - xvfb-maybe npm test
