@@ -20,6 +20,7 @@ cache:
     - node_modules
 
 before_script:
+  - npm install -g gulp
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 -extension RANDR &
 
