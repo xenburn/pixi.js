@@ -13,7 +13,7 @@ addons:
       - g++-4.8
 
 install:
-    - npm install xvfb-maybe
+    - npm install xvfb-maybe electron-prebuilt
     - npm install
 
 cache:
