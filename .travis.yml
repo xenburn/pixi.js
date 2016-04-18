@@ -13,7 +13,8 @@ addons:
       - g++-4.8
 
 install:
-    - npm install gulp xvfb-maybe electron-prebuilt .
+    - npm install xvfb-maybe electron-prebuilt
+    - npm install
 
 cache:
   directories:
@@ -25,5 +26,4 @@ before_script:
   - Xvfb :99 -screen 0 1024x768x24 -extension RANDR &
 
 script:
-    - gulp
     - xvfb-maybe npm test
