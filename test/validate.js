@@ -6,7 +6,8 @@ const assert = require('assert');
 
 before(function(){
 
-    this.hasWebGL = PIXI.utils.isWebGLSupported();
+    this.hasWebGL = !!PIXI.utils.isWebGLSupported();
+    console.log("  PIXI.utils.isWebGLSupported:", this.hasWebGL);
 
     if (!this.hasWebGL) {
         const webglView = this.webglView = document.createElement('canvas');
