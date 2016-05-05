@@ -12,8 +12,7 @@
         "test",
         "bower.json",
         "gulpfile.js",
-        "inch.json",
-        "testem.json"
+        "inch.json"
     ],
     "dependencies": {
     },

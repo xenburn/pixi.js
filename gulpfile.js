@@ -32,9 +32,5 @@ requireDir('./gulp/tasks', { recurse: true });
 
 // default task
 gulp.task('default', function(done){
-	runSeq('test', 'build', done);
-});
-
-gulp.task('test', function(done){
-	runSeq('jshint', 'unit-test', done);
+	runSeq('jshint', 'build', 'test', done);
 });
