@@ -5,24 +5,29 @@ const md5 = require('js-md5');
 const assert = require('assert');
 
 before(function(){
-    const webglView = this.webglView = document.createElement('canvas');
-    webglView.id = "webgl";
-    webglView.width = 32;
-    webglView.height = 32;
-    document.body.appendChild(webglView);
+
+    this.hasWebGL = PIXI.utils.isWebGLSupported();
+
+    if (!this.hasWebGL) {
+        const webglView = this.webglView = document.createElement('canvas');
+        webglView.id = "webgl";
+        webglView.width = 32;
+        webglView.height = 32;
+        document.body.appendChild(webglView);
+
+        this.webgl = new PIXI.WebGLRenderer(32, 32, {
+            view: webglView,
+            backgroundColor: 0xffffff,
+            antialias: false,
+            preserveDrawingBuffer: true
+        });
+    }
 
     const canvasView = this.canvasView = document.createElement('canvas');
     canvasView.id = "canvas";
     canvasView.width = 32;
     canvasView.height = 32;
     document.body.appendChild(canvasView);
-
-    this.webgl = new PIXI.WebGLRenderer(32, 32, {
-        view: webglView,
-        backgroundColor: 0xffffff,
-        antialias: false,
-        preserveDrawingBuffer: true
-    });
 
     this.canvas = new PIXI.CanvasRenderer(32, 32, {
         view: canvasView,
@@ -35,7 +40,9 @@ before(function(){
 
     this.stage = new PIXI.Container();
     this.update = function() {
-        this.webgl.render(this.stage);
+        if (!this.hasWebGL) {
+            this.webgl.render(this.stage);
+        }
         this.canvas.render(this.stage);
     };
 
@@ -45,11 +52,13 @@ before(function(){
 
     this.validate = function(testId) {
         this.update();
-        assert.equal(
-            solutions[testId].webgl, 
-            md5(this.webglView.toDataURL()), 
-            'WebGL solution for "' + testId + '" failed'
-        );
+        if (!this.hasWebGL) {
+            assert.equal(
+                solutions[testId].webgl, 
+                md5(this.webglView.toDataURL()), 
+                'WebGL solution for "' + testId + '" failed'
+            );
+        }
         assert.equal(
             solutions[testId].canvas, 
             md5(this.canvasView.toDataURL()), 
@@ -61,11 +70,17 @@ before(function(){
 // Delete and remove the canvas
 after(function(){
     this.stage.destroy(true);
-    this.webgl.destroy();
+    if (!this.hasWebGL) {
+        this.webgl.destroy();
+        this.webgl = null;
+        this.webglView = null;
+        this.webglView.parentNode.removeChild(this.webglView);
+    }
     this.canvas.destroy();
     this.canvas = null;
+    this.canvasView.parentNode.removeChild(this.canvasView);
+    this.canvasView = null;
     this.stage = null;
-    this.webgl = null;
     this.validate = null;
     this.update = null;
 });
